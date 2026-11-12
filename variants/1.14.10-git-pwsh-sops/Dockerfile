@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/powershell:lts-7.4-alpine-3.20
+FROM alpine:3.24
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
@@ -25,11 +25,17 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 ENV DOTNET_TELEMETRY_OPTOUT=1
 ENV COMPlus_EnableDiagnostics=0
 
+# Install powershell
+RUN set -eux; \
+    apk add --no-cache powershell; \
+    pwsh --version
+
 # Install powershell modules
 RUN set -eux; \
     pwsh -c 'Install-Module Pester -Scope AllUsers -MinimumVersion 4.10.1 -MaximumVersion 4.10.1 -Force -ErrorAction Stop -Verbose'; \
     pwsh -c 'Install-Module powershell-yaml -Scope AllUsers -MinimumVersion 0.4.12 -MaximumVersion 0.4.12 -Force -ErrorAction Stop -Verbose'; \
-    pwsh -c 'Install-Module posh-SSH -Scope AllUsers -MinimumVersion 3.2.7 -MaximumVersion 3.2.7 -Force -ErrorAction Stop -Verbose';
+    pwsh -c 'Install-Module posh-SSH -Scope AllUsers -MinimumVersion 3.2.7 -MaximumVersion 3.2.7 -Force -ErrorAction Stop -Verbose'; \
+    pwsh -c 'Get-InstalledModule';
 
 # Install sops
 RUN set -eux; \

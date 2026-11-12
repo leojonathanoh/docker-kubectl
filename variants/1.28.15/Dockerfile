@@ -1,4 +1,4 @@
-FROM alpine:3.20
+FROM alpine:3.24
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"

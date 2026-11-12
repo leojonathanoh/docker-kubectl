@@ -20,17 +20,13 @@ $VARIANTS = @(
                 # Metadata object
                 _metadata = @{
                     package_version = $variant['package_version']
-                    distro = if ($subVariant['components'] -contains 'pwsh') {
-                        'mcr.microsoft.com/powershell'
-                    }else {
-                        'alpine'
+                    distro = 'alpine'
+                    distro_version = '3.24'
+                    platforms = if ($subVariant['components'] -contains 'pwsh') {
+                        'linux/amd64,linux/arm64'
+                    } else {
+                        'linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/s390x'
                     }
-                    distro_version = if ($subVariant['components'] -contains 'pwsh') {
-                        'lts-7.4-alpine-3.20'
-                    }else {
-                        '3.20'
-                    }
-                    platforms = 'linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/s390x'
                     components = $subVariant['components']
                     job_group_key = $variant['package_version']
                 }

@@ -27,7 +27,7 @@ $(
 }) -join ''
 )
 - All variants are based on ``$( $VARIANTS | ? { $_['tag'] -notmatch '\bpwsh\b' } | Select-Object -First 1 | % { "$( $_['_metadata']['distro'] ):$( $_['_metadata']['distro_version'] )" })``, except ``pwsh`` variants.
-- ``pwsh`` variants are based on ``$( $VARIANTS | ? { $_['tag'] -match '\bpwsh\b' } | Select-Object -First 1 | % { "$( $_['_metadata']['distro'] ):$( $_['_metadata']['distro_version'] )" })``, which contain disabled telemetry, modules, and core cmdlets that make it easy to work with tests, environment variables, JSON, ssh, and YAML.
+- ``pwsh`` variants contain pwsh 7.6, disabled telemetry, modules, and core cmdlets that make it easy to work with tests, environment variables, JSON, ssh, and YAML. At present, ``pwsh`` variants support fewer platforms, namely: ``$( $VARIANTS | ? { $_['tag'] -match '\bpwsh\b' } | Select-Object -First 1 | % { $( $_['_metadata']['platforms'] -join ', ') } )``
 
 
 "@

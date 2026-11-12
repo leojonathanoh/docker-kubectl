@@ -25,25 +25,7 @@ $VARIANT['_metadata']['components'] | % {
 
         'envsubst' {
             @'
-# From: https://github.com/nginxinc/docker-nginx/blob/1.17.0/stable/alpine/Dockerfile
-# Bring in gettext so we can get `envsubst`, then throw
-# the rest away. To do this, we need to install `gettext`
-# then move `envsubst` out of the way so `gettext` can
-# be deleted completely, then move `envsubst` back.
-RUN apk add --no-cache --virtual .gettext gettext \
-    && mv /usr/bin/envsubst /tmp/ \
-    \
-    && runDeps="$( \
-        scanelf --needed --nobanner /tmp/envsubst \
-            | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
-            | sort -u \
-            | xargs -r apk info --installed \
-            | sort -u \
-    )" \
-    && apk add --no-cache $runDeps \
-    && apk del .gettext \
-    && mv /tmp/envsubst /usr/local/bin/ \
-    && envsubst --version
+RUN apk add --no-cache gettext-envsubst
 
 
 '@
@@ -87,11 +69,17 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT=1
 ENV DOTNET_TELEMETRY_OPTOUT=1
 ENV COMPlus_EnableDiagnostics=0
 
+# Install powershell
+RUN set -eux; \
+    apk add --no-cache powershell; \
+    pwsh --version
+
 # Install powershell modules
 RUN set -eux; \
     pwsh -c 'Install-Module Pester -Scope AllUsers -MinimumVersion 4.10.1 -MaximumVersion 4.10.1 -Force -ErrorAction Stop -Verbose'; \
     pwsh -c 'Install-Module powershell-yaml -Scope AllUsers -MinimumVersion 0.4.12 -MaximumVersion 0.4.12 -Force -ErrorAction Stop -Verbose'; \
-    pwsh -c 'Install-Module posh-SSH -Scope AllUsers -MinimumVersion 3.2.7 -MaximumVersion 3.2.7 -Force -ErrorAction Stop -Verbose';
+    pwsh -c 'Install-Module posh-SSH -Scope AllUsers -MinimumVersion 3.2.7 -MaximumVersion 3.2.7 -Force -ErrorAction Stop -Verbose'; \
+    pwsh -c 'Get-InstalledModule';
 
 
 "@
