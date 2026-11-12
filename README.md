@@ -83,8 +83,8 @@ Dockerized `kubectl` with useful tools.
 | `:1.14.10-envsubst-git-jq-kustomize-sops-ssh-yq` | [View](variants/1.14.10-envsubst-git-jq-kustomize-sops-ssh-yq) |
 | `:1.14.10-git-pwsh-sops` | [View](variants/1.14.10-git-pwsh-sops) |
 
-- All variants are based on `alpine:3.20`, except `pwsh` variants.
-- `pwsh` variants are based on `mcr.microsoft.com/powershell:lts-7.4-alpine-3.20`, which contain disabled telemetry, modules, and core cmdlets that make it easy to work with tests, environment variables, JSON, ssh, and YAML.
+- All variants are based on `alpine:3.24`, except `pwsh` variants.
+- `pwsh` variants contain pwsh 7.6, disabled telemetry, modules, and core cmdlets that make it easy to work with tests, environment variables, JSON, ssh, and YAML. At present, `pwsh` variants support fewer platforms, namely: `linux/amd64,linux/arm64`
 
 ## Development
 
